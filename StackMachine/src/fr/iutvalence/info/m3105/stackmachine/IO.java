@@ -24,13 +24,13 @@ public class IO
 
 	public void displayRuntimeError(String string)
 	{
-		System.err.println(string);
+		err.println(string);
 		
 	}
 	
 	public void displayProgramTermination()
 	{
-		System.out.println("(HALT)");
+		out.println("(HALT)");
 	}
 
 	public int read() throws IOException

@@ -26,30 +26,51 @@ public class MachineLauncher
 								// push result on exp-stack
 		0x16		ret
 		*/
-		Instruction[] instructions = 
-				new Instruction[] 
-				{
-						new Instruction(CPU.IN, null),
-						new Instruction(CPU.CALL, new int[] {0x5}),
-						new Instruction(CPU.OUT, null),
-						new Instruction(CPU.HALT, null),
-						new Instruction(CPU.DUP, null),
-						new Instruction(CPU.JZ, new int[] {0xb}),
-						new Instruction(CPU.CALL, new int[] {0xf}),
-						new Instruction(CPU.RET, null),
-						new Instruction(CPU.POP, null),
-						new Instruction(CPU.PUSH, new int[] {0x1}),
-						new Instruction(CPU.RET, null),
-						new Instruction(CPU.DUP, null),
-						new Instruction(CPU.PUSH, new int[] {0x1}),
-						new Instruction(CPU.SUB, null),
-						new Instruction(CPU.CALL, new int[] {0x5}),
-						new Instruction(CPU.MUL, null),
-						new Instruction(CPU.RET, null)
-				};
+//		Instruction[] instructions = 
+//				new Instruction[] 
+//				{
+//						new Instruction(CPU.IN, null),
+//						new Instruction(CPU.CALL, new int[] {0x5}),
+//						new Instruction(CPU.OUT, null),
+//						new Instruction(CPU.HALT, null),
+//						new Instruction(CPU.DUP, null),
+//						new Instruction(CPU.JZ, new int[] {0xb}),
+//						new Instruction(CPU.CALL, new int[] {0xf}),
+//						new Instruction(CPU.RET, null),
+//						new Instruction(CPU.POP, null),
+//						new Instruction(CPU.PUSH, new int[] {0x1}),
+//						new Instruction(CPU.RET, null),
+//						new Instruction(CPU.DUP, null),
+//						new Instruction(CPU.PUSH, new int[] {0x1}),
+//						new Instruction(CPU.SUB, null),
+//						new Instruction(CPU.CALL, new int[] {0x5}),
+//						new Instruction(CPU.MUL, null),
+//						new Instruction(CPU.RET, null)
+//				};
+		
+		
+		
+		/*
+		0x0: 		push 0x1	  	// Push 1 on exp-stack
+		0x2: 		push 0x6		// Push 6 on exp-stack
+		0x4: 		add				// add 1 and 6 and store the value on exp-stack
+		0x5: 		out				// display the value
+		0x6:        halt			// stop the program
+		 */
+		
+		Instruction[] instructions = new Instruction[]{
+				
+				new Instruction(CPU.PUSH, new int[]{0x1}),
+				new Instruction(CPU.PUSH, new int[]{0x6}),
+				new Instruction(CPU.ADD, null),
+				new Instruction(CPU.OUT, null),
+				new Instruction(CPU.HALT, null)
+				
+		};
+		
 		Program program = new Program(instructions);
 		
-		Memory programMemory= null;
+		Memory programMemory = null;
 		Stack expStack = null;
 		Stack callStack = null;
 

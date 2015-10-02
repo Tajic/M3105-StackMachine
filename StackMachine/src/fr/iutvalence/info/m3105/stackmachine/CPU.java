@@ -28,155 +28,221 @@ public class CPU
 	public final static int DUP		= 0x14;
 	public final static int POP		= 0x15;
 	
-	// TODO something is missing here...
+	private Memory programMemory;
+	private Stack expStack;
+	private Stack callStack;
+	private IO ioSystem;
+	private int programCounter;
 
 	public void run()
-	{
+	{	
 		try
 		{
+			int opCode;
+			
 			while (true)
 			{
-				// TODO something is missing here...
-
-				// System.err.print("@" + this.programCounter + ": ");
+				
+				
+				opCode = programMemory.read(programCounter);
+				programCounter++;				
+				
+				ioSystem.displayRuntimeError("@" + (programCounter-1) + ": ");
 				switch (opCode)
 				{
 					case HALT:
 					{
-						// System.err.println("HALT");
 						this.ioSystem.displayProgramTermination();
 						return;
 					}
 					case PUSH:
 					{
-						// TODO something is missing here...
+						expStack.push(programMemory.read(programCounter));
+						programCounter++;
 						break;
 					}
 					case ADD:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(a+b);
 						break;
 					}
 					case SUB:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(a-b);
 						break;
 					}
 					case MUL:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(a*b);
 						break;
 					}
 					case DIV:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(a/b);
 						break;
 					}
 					case MOD:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(a%b);
 						break;
 					}
 					case NEG:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						expStack.push(-a);
 						break;
 					}
 					case LT:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(b < a ? 0 : 1);
 						break;
 					}
 					case LE:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(b <= a ? 0 : 1);
 						break;
 					}
 					case GT:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(b > a ? 0 : 1);
 						break;
 					}
 					case GE:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(b >= a ? 0 : 1);
 						break;
 					}
 					case EQ:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(b == a ? 0 : 1);
 						break;
 					}
 					case NE:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						int b = expStack.pop();
+						expStack.push(b != a ? 0 : 1);
 						break;
 					}
 					case IN:
 					{
-						// TODO something is missing here...
+						int a = ioSystem.read();
+						expStack.push(a);
 						break;
 					}
 					case OUT:
 					{
-						// TODO something is missing here...
+						ioSystem.write(expStack.pop());
 						break;
 					}
 					case CALL:
 					{
-						// TODO something is missing here...
+						callStack.push(programCounter);
 						break;
 					}
 					case RET:
 					{
-						// TODO something is missing here...
+						programCounter = callStack.pop();
 						break;
 					}
 					case JP:
 					{
-						// TODO something is missing here...
+						programCounter = programMemory.read(programCounter);
 						break;
 					}
 					case JZ:
 					{
-						// TODO something is missing here...
+						int a = expStack.pop();
+						if(a == 0)
+							programCounter = a;
 						break;
 					}
 					case DUP:
 					{
-						// TODO something is missing here...
+						expStack.dup();
 						break;
 					}
 					case POP:
 					{
-						// TODO something is missing here...
+						expStack.pop();
 						break;
 					}
 					default:
 					{
-						// TODO something is missing here...
+						ioSystem.displayRuntimeError("Bad instruction");
 						return;
 					}
+					
 				}
 			}
 		}
 		catch (AddressOutOfBoundsException e)
 		{
-			// TODO something is missing here...
+			ioSystem.displayRuntimeError("Adress out of bounds.");
 		}
 		catch (IOException e)
 		{
-			// TODO something is missing here...
+			ioSystem.displayRuntimeError("Error with IO system.");
 		}
 		catch (StackOverflowException e)
 		{
-			// TODO something is missing here...
+			ioSystem.displayRuntimeError("Stack overflow.");
 		}
 		catch (StackUnderflowException e)
 		{
-			// TODO something is missing here...
+			ioSystem.displayRuntimeError("Stack underflow.");
 		}		
 	}
 
-	// TODO something is missing here...
+	public void wireToProgramMemory(Memory programMemory) {
+		this.programMemory = programMemory;
+		
+	}
+
+	public void wireToExpStack(Stack expStack) {
+		this.expStack = expStack;
+		
+	}
+
+	public void wireToCallStack(Stack callStack) {
+		this.callStack = callStack;
+		
+	}
+
+	public void wireToIoSubsystem(IO ioSystem) {
+		this.ioSystem = ioSystem;
+		
+	}
+
+	public void clearStacks() {
+		callStack.clear();
+		expStack.clear();
+		
+	}
+
+	public void setPC(int address) {
+		programCounter = address;
+		
+	}
+
 }

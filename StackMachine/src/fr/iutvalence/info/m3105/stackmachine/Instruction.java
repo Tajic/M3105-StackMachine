@@ -1,4 +1,9 @@
 package fr.iutvalence.info.m3105.stackmachine;
+/**
+ * 
+ * @author PASCAL Benjamin et BARNEOUD Hector
+ *
+ */
 
 public class Instruction {
 

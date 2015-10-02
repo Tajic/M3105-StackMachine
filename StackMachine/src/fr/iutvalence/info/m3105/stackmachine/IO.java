@@ -1,5 +1,9 @@
 package fr.iutvalence.info.m3105.stackmachine;
-
+/**
+ * 
+ * @author PASCAL Benjamin et BARNEOUD Hector
+ *
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
